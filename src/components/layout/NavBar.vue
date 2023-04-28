@@ -1,12 +1,14 @@
 <template lang="">
   <nav
-    class="navbar navbar-expand-lg bg-light fixed-top mb-3 shadow"
+    class="navbar navbar-expand-sm bg-white fixed-top mb-5 shadow"
     style="background-color: #e3f2fd"
   >
     <div class="container">
-      <a class="navbar-brand" href="#">
-        <img src="../../assets/xther-logo 1080p.png" alt="Xther" width="96" height="40" />
-      </a>
+      <router-link to="/">
+        <a class="navbar-brand" href="#">
+          <img src="../../assets/xther-logo-512.png" alt="Xther" width="36" height="32" />
+        </a>
+      </router-link>
 
       <button
         class="navbar-toggler"
@@ -21,29 +23,44 @@
       </button>
       <div class="collapse navbar-collapse justify-content-center" id="navbarNav">
         <ul class="navbar-nav">
-          <router-link style="text-decoration: none" to="/home">
+          <router-link style="text-decoration: none" to="/">
             <li class="nav-item">
-              <a class="nav-link fw-semibold" aria-current="page">Home</a>
+              <a class="nav-link text-dark">Home</a>
             </li>
           </router-link>
-          <router-link style="text-decoration: none" to="/add-minister">
-            <li class="nav-item">
-              <a class="nav-link fw-semibold" href="#">Cadastros</a>
-            </li>
-          </router-link>
-          <router-link style="text-decoration: none" to="cultos-reunioes">
-            <li class="nav-item">
-              <a class="nav-link fw-semibold" href="#">Cultos ou Reuniões</a>
-            </li>
-          </router-link>
+          <li class="nav-item">
+            <div>
+              <a
+                class="btn btn-white dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Adicionar
+              </a>
+
+              <ul class="dropdown-menu">
+                <router-link style="text-decoration: none" to="/novos-integrantes">
+                  <li><a class="dropdown-item">Integrante Administrativo</a></li>
+                </router-link>
+                <router-link style="text-decoration: none" to="/cultos-reunioes">
+                  <li><a class="dropdown-item">Culto ou Reunião</a></li>
+                </router-link>
+                <router-link style="text-decoration: none" to="">
+                  <li><a class="dropdown-item">Usuario</a></li>
+                </router-link>
+              </ul>
+            </div>
+          </li>
           <router-link style="text-decoration: none" to="/lancamento">
             <li class="nav-item">
-              <a class="nav-link fw-semibold">Lançamentos</a>
+              <a class="nav-link text-dark">Lançamentos</a>
             </li>
           </router-link>
           <router-link style="text-decoration: none" to="/relatorios">
             <li class="nav-item">
-              <a class="nav-link fw-semibold">Relatórios</a>
+              <a class="nav-link text-dark">Relatórios</a>
             </li>
           </router-link>
         </ul>
@@ -51,13 +68,13 @@
       <div class="dropdown" style="margin-right: 30px">
         <a
           href="#"
-          class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+          class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
           data-bs-toggle="dropdown"
           aria-expanded="false"
         >
-          <strong class="text-black" style="margin-right: 10px">{{ getUsuario.nome }}</strong>
+          <strong class="text-dark" style="margin-right: 10px">{{ getUsuario.nome }}</strong>
           <img
-            src="https://github.com/mdo.png"
+            src=""
             alt=""
             width="32"
             height="32"
@@ -76,6 +93,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { useRouter } from 'vue-router'
+import checkUsuario from '../../js/checkUsuario'
 const router = useRouter()
 
 export default {
@@ -84,6 +102,7 @@ export default {
     logout() {
       localStorage.removeItem('token')
       this.$router.push({ path: '/login' })
+      location.reload()
     }
   }
 }

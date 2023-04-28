@@ -1,210 +1,399 @@
 <template>
-  <div class="row g-3 mt-4" style="overflow-x: hidden;">
-    <div class="col-md-4">
-      <p class="h3">Lançamento de reunião</p>
+  <div class="container-md d-flex flex-column align-items-center">
+    <p class="h3 mt-4 mb-3">Lançamento Da Atividade</p>
+    <form action="">
+      <div class="accordion shadow" style="width: 800px" id="accordionExample">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseTwo"
+              aria-expanded="true"
+              aria-controls="collapseTwo"
+            >
+              Informações Gerais
+            </button>
+          </h2>
+          <div
+            id="collapseTwo"
+            class="accordion-collapse collapse show"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <div class="row">
+                <div class="col-md-8">
+                  <label for="inputEmail4" class="form-label">Nome do Culto ou Reunião</label>
+                    <select v-model="nomeCulto" id="inputState" class="form-select">
+                      <option v-for="culto in todosOsCultos" v-on:click="carregarDados(culto)" :key="culto._id" value="{{ culto._id }}">{{ culto.nomeCulto }} - {{ converterData(culto.data) }}</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="inputPassword4" class="form-label">Pregador da Homilia</label>
+                  <input v-model="pregador" type="text" class="form-control" id="inputPassword4" />
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="inputAddress2" class="form-label">Palavra</label>
+                <input
+                  v-model="palavra"
+                  type="text"
+                  class="form-control"
+                  id="inputAddress2"
+                  placeholder=""
+                />
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="inputPassword4" class="form-label">Semana Nº</label>
+                  <input v-model="semana" type="number" class="form-control" id="inputPassword4" />
+                </div>
+                <div class="col-md-4">
+                  <label for="inputAddress" class="form-label">Data do culto</label>
+                  <input
+                    v-model="data"
+                    type="date"
+                    class="form-control"
+                    id="inputAddress"
+                    placeholder=""
+                  />
+                </div>
+              </div>
+              <div class="input-group mt-3">
+                <span class="input-group-text">Observação</span>
+                <textarea
+                  v-model="observacao"
+                  class="form-control"
+                  aria-label="With textarea"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseFour"
+              aria-expanded="false"
+              aria-controls="collapseTwo"
+            >
+              Pastores Assistentes
+            </button>
+          </h2>
+          <div
+            id="collapseFour"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label">Pregador da palavra de amor</label>
+                  <input v-model="pregadorAmor" type="text" class="form-control" id="inputEmail4" />
+                </div>
+                <div class="col-md-6">
+                  <label for="inputEmail4" class="form-label"
+                    >Pregador da palavra de finanças</label
+                  >
+                  <input
+                    v-model="pregadorFinancas"
+                    type="text"
+                    class="form-control"
+                    id="inputEmail4"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseOne"
+              aria-expanded="false"
+              aria-controls="collapseOne"
+            >
+              Presenças
+            </button>
+          </h2>
+          <div
+            id="collapseOne"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <div class="row">
+                <div class="col-md-4 p-2 rounded-1">
+                  <label for="inputCity" class="form-label p-1">Adultos</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Alvo</span>
+                    <input
+                      v-model="adultoAlvo"
+                      type="text"
+                      class="form-control"
+                      placeholder="alvo"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text mr-1" id="basic-addon1">Real</span>
+                    <input
+                      v-model="adultoReal"
+                      type="text"
+                      class="form-control"
+                      placeholder="real"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4 p-2 rounded-1">
+                  <label for="inputCity" class="form-label p-1">Crianças</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Alvo</span>
+                    <input
+                      v-model="criancasAlvo"
+                      type="text"
+                      class="form-control"
+                      placeholder="alvo"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text mr-1" id="basic-addon1">Real</span>
+                    <input
+                      v-model="criancasReal"
+                      type="text"
+                      class="form-control"
+                      placeholder="real"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-4 p-2 rounded-1">
+                  <label for="inputCity" class="form-label p-1">Novos convertidos</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Alvo</span>
+                    <input
+                      v-model="convertidosAlvo"
+                      type="text"
+                      class="form-control"
+                      placeholder="alvo"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text mr-1" id="basic-addon1">Real</span>
+                    <input
+                      v-model="convertidosReal"
+                      type="text"
+                      class="form-control"
+                      placeholder="real"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button
+              class="accordion-button collapsed"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#collapseThree"
+              aria-expanded="false"
+              aria-controls="collapseThree"
+            >
+              Finanças
+            </button>
+          </h2>
+          <div
+            id="collapseThree"
+            class="accordion-collapse collapse"
+            data-bs-parent="#accordionExample"
+          >
+            <div class="accordion-body">
+              <div class="row">
+                <div class="col-md-3 p-2 rounded-1">
+                  <label for="inputCity" class="form-label p-1">Alvo das finanças</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Alvo</span>
+                    <input
+                      v-model="financasAlvo"
+                      type="text"
+                      class="form-control"
+                      placeholder="0"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3 p-2 rounded-1">
+                  <label for="inputCity" class="form-label p-1">Dízimos</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Cash</span>
+                    <input
+                      v-model="financasDizimosCash"
+                      type="text"
+                      class="form-control"
+                      placeholder="0"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+
+                  <div class="input-group mb-3">
+                    <span class="input-group-text mr-1" id="basic-addon1">Transferência</span>
+                    <input
+                      v-model="financasDizimosTransferencia"
+                      type="text"
+                      class="form-control"
+                      placeholder="0"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3 p-2 rounded-1">
+                  <label for="inputCity" class="form-label p-1">Ofertas</label>
+                  <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1">Ofertas</span>
+                    <input
+                      v-model="financasOfertas"
+                      type="text"
+                      class="form-control"
+                      placeholder="0"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+                <div class="col-md-3 p-2 rounded-1">
+                  <label for="inputCity" class="form-label p-1">Total Real</label>
+                  <div class="input-group mb-3">
+                    <input
+                      v-model="financasTotal"
+                      type="text"
+                      class="form-control"
+                      placeholder="0"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="row mt-3 mb-3" style="width: 400px">
+      <button @click="realizarLancamento($event)" class="btn col-md-5 btn-primary">Salvar</button>
+      <span class="col-md-1"></span>
+      <button type="reset" class="btn col-md-5 btn-outline-danger">Cancelar</button>
     </div>
-
-    <div class="col-md-8">
-      <form>
-      <div class="col-md-6">
-        <label for="inputEmail4" class="form-label">Culto ou Reunião</label>
-        <input type="text" class="form-control" id="inputEmail4" />
-      </div>
-      <div class="col-md-3">
-        <label for="inputPassword4" class="form-label">Semana Nº</label>
-        <input type="number" class="form-control" id="inputPassword4" />
-      </div>
-      <div class="col-md-3">
-        <label for="inputAddress" class="form-label">Data do culto</label>
-        <input type="date" class="form-control" id="inputAddress" placeholder="" />
-      </div>
-      <div class="col-12">
-        <label for="inputAddress2" class="form-label">Palavra</label>
-        <input type="text" class="form-control" id="inputAddress2" placeholder="" />
-      </div>
-      <hr />
-
-      <p class="h3">Presenças</p>
-      <div class="row">
-        <div class="col-md-4 p-2 rounded-1">
-          <label for="inputCity" class="form-label p-1">Adultos</label>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Alvo</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="alvo"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-
-          <div class="input-group mb-3">    
-            <span class="input-group-text mr-1" id="basic-addon1">Real</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="real"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 p-2 rounded-1">
-          <label for="inputCity" class="form-label p-1">Crianças</label>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Alvo</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="alvo"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-            
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text mr-1" id="basic-addon1">Real</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="real"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-        <div class="col-md-4 p-2 rounded-1">
-          <label for="inputCity" class="form-label p-1">Novos convertidos</label>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Alvo</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="alvo"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-          <div class="input-group mb-3">
-            <span class="input-group-text mr-1" id="basic-addon1">Real</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="real"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-      </div>
-      <hr />
-      <p class="h3">Finanças</p>
-      <div class="row">
-        <div class="col-md-3 p-2 rounded-1">
-          <label for="inputCity" class="form-label p-1">Alvo das finanças</label>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Alvo</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-        <div class="col-md-3 p-2 rounded-1">
-          <label for="inputCity" class="form-label p-1">Dízimos</label>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Alvo</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-
-          <div class="input-group mb-3">
-            <span class="input-group-text mr-1" id="basic-addon1">Real</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-        <div class="col-md-3 p-2 rounded-1">
-          <label for="inputCity" class="form-label p-1">Ofertas</label>
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Ofertas</span>
-            <input
-              type="text"
-              class="form-control"
-              placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-        <div class="col-md-3 p-2 rounded-1">
-          <label for="inputCity" class="form-label p-1">Total Real</label>
-          <div class="input-group mb-3">
-            <input
-              type="text"
-              class="form-control"
-              placeholder="0"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-      </div>
-      <hr />
-
-      <p class="h3 mb-4">Pregadores Assistente</p>
-      <div class="row">
-        <div class="input-group mb-3">
-          <label class="input-group-text" for="inputGroupSelect01">Palavra de Amor</label>
-          <select class="form-select" id="inputGroupSelect01">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-
-          <label class="input-group-text" for="inputGroupSelect01">Palavra de finanças</label>
-          <select class="form-select" id="inputGroupSelect01">
-            <option selected>Choose...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
-      </div>
-      <hr />
-
-      <div class="input-group">
-        <span class="input-group-text">Observação</span>
-        <textarea class="form-control" aria-label="With textarea"></textarea>
-      </div>
-
-      <div class="col-12 mt-2 mb-2">
-        <button type="submit" class="d-grid gap-2 col-6 mx-auto btn btn-primary">Salvar</button>
-      </div>
-      <div class="col-12">
-        <button type="submit" class="d-grid gap-2 col-6 mx-auto btn btn-outline-danger">Cancelar</button>
-      </div>
-      </form>
-    </div> 
-    
   </div>
 </template>
 <script>
-export default {}
+import axios from 'axios'
+import converterData from '../js/converterData'
+
+export default {
+  data() {
+    return {
+      todosOsCultos: '',
+      nomeCulto: '',
+      pregador: '',
+      semana: '',
+      data: '',
+      palavra: '',
+      adultoAlvo: '',
+      adultoReal: '',
+      criancasAlvo: '',
+      criancasReal: '',
+      convertidosAlvo: '',
+      convertidosReal: '',
+      financasAlvo: '',
+      financasDizimosCash: '',
+      financasDizimosTransferencia: '',
+      financasOfertas: '',
+      financasTotal: '',
+      pregadorAmor: '',
+      pregadorFinancas: '',
+      observacao: ''
+    }
+  },
+  methods: {
+    converterData: converterData,
+    async realizarLancamento(event) {
+      event.preventDefault()
+
+      try {
+        const response = await axios.post('/lancamentos/', {
+          nomeCulto: this.nomeCulto,
+          pregador: this.pregador,
+          semana: this.semana,
+          data: this.data,
+          palavra: this.palavra,
+          adultoAlvo: this.adultoAlvo,
+          adultoReal: this.adultoReal,
+          criancasAlvo: this.criancasAlvo,
+          criancasReal: this.criancasReal,
+          convertidosAlvo: this.convertidosAlvo,
+          convertidosReal: this.convertidosReal,
+          financasAlvo: this.financasAlvo,
+          financasDizimosAlvo: this.financasDizimosAlvo,
+          financasDizimosReal: this.financasDizimosReal,
+          financasOfertas: this.financasOfertas,
+          financasTotal: this.financasTotal,
+          pregadorAmor: this.pregadorAmor,
+          pregadorFinancas: this.pregadorFinancas,
+          observacao: this.observacao
+        })
+
+        console.log(response.data)
+      } catch (error) {
+        console.log(error.response.data)
+      }
+    },
+    async buscarCultos() {
+      try {
+        const response = await axios.get('/cultos/')
+        this.todosOsCultos = response.data
+      } catch (error) {
+        console.log(error.response.data)
+      }
+    },
+    carregarDados(dados) {
+      console.log(dados.alvos)
+      this.pregador = dados.nomeLider
+      this.pregadorAmor = dados.coLider1
+      this.pregadorFinancas = dados.coLider2
+      this.adultoAlvo = dados.alvos.adultos
+      this.convertidosAlvo = dados.alvos.convertidos
+      this.criancasAlvo = dados.alvos.criancas
+      this.financasAlvo = dados.alvos.financas
+    }
+  },
+  beforeMount() {
+    this.buscarCultos()
+  }
+}
 </script>
 <style lang=""></style>

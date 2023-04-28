@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
-import AddMinister from '../views/AddMinister.vue'
-import CultoReunioesView from '../views/CultosReunioes.vue'
+import NovosIntegrantes from '../views/cadastros/NovosIntegrantes.vue'
+import CultoReunioesView from '../views/cadastros/CultosReunioes.vue'
 import LancamentoView from '../views/Lancamento.vue'
 import RelatoriosView from '../views/Relatorios.vue'
 import HomeView from '../views/Home.vue'
@@ -10,14 +10,9 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
-      path:"/home",
-      name:"home",
-      component: HomeView
-    },
-    {
       path:"/",
       name:"home",
-      redirect: "/home"
+      component: HomeView
     },
     {
       path: '/login',
@@ -25,9 +20,9 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/add-minister',
-      name: 'addMinister',
-      component: AddMinister
+      path: '/novos-integrantes',
+      name: 'novos-integrantes',
+      component: NovosIntegrantes
     },
     {
       path: '/cultos-reunioes', 

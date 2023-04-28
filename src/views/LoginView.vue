@@ -6,7 +6,7 @@
         <div class="container mb-4">
           <a class="navbar-brand d-flex justify-content-center" href="#">
             <img
-              src="../assets/xther-logo 512.png"
+              src="../assets/xther-logo-512.png"
               alt="Xther"
               width="64"
               height="60"
@@ -57,13 +57,12 @@ import { useRouter } from 'vue-router'
 import checkUsuario from '../js/checkUsuario'
 const router = useRouter()
 
-export default {
+export default { 
   computed: {
     ...mapGetters(['getErrors'])
   },
   methods: {
     ...mapMutations(['setError', 'clearState']),
-    ...mapActions(['loginUsuario']),
     storeError(error) {
       this.setError(error)
     },

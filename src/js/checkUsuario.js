@@ -1,11 +1,11 @@
 import axios from 'axios'
-import router from '../router'
+import router from '../router/index'
 import store from '../store'
 
 const checkUsuario = async () => {
   try {
     const response = await axios.get('/usuarios/me')
-    router.push({ path: '/home'})
+    router.push({ path: '/'})
     store.commit('setUsuario', response.data)
 
   } catch (error) {
