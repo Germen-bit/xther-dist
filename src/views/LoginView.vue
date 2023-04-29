@@ -1,6 +1,6 @@
 <template lang="">
-  <div style="overflow-y: hidden">
-    <main class="form-signin w-100 m-auto">
+  <div style="overflow-y: hidden" class="shadow rounded">
+    <main class="form-signin w-100 m-auto bg-white p-5 rounded">
       <form class="main-content">
          <!-- Logo -->
         <div class="container mb-4">
@@ -99,7 +99,6 @@ export default {
 
 <style scoped>
 .main-content {
-  width: 450px;
-  margin: 150px;
+  width: 450px
 }
 </style>

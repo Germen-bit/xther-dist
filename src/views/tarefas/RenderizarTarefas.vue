@@ -43,11 +43,7 @@ export default {
                 axios.delete(`/tarefas/${tarefa._id}`)
             }
         });
-        
         this.tarefas = response.data
-
-
-
       } catch (error) {
         console.log(error.response.data)
       }
@@ -57,7 +53,7 @@ export default {
       let dataAtual = new Date()
       dataAtual.setHours(0, 0, 0, 0)
       let diferenca = dataObj.getTime() - dataAtual.getTime()
-      return Math.ceil(diferenca / (1000 * 60 * 60 * 24))
+      return Math.ceil(diferenca / (1000 * 60 * 60 * 24)) - 1
     }
   },
   beforeMount() {

@@ -5,6 +5,7 @@ import CultoReunioesView from '../views/cadastros/CultosReunioes.vue'
 import LancamentoView from '../views/Lancamento.vue'
 import RelatoriosView from '../views/Relatorios.vue'
 import HomeView from '../views/Home.vue'
+import NovosUsuarios from '../views/cadastros/NovosUsuarios.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -20,7 +21,7 @@ const router = createRouter({
       component: LoginView
     },
     {
-      path: '/novos-integrantes',
+      path: '/novo-integrante',
       name: 'novos-integrantes',
       component: NovosIntegrantes
     },
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/relatorios',
       name: 'relatorios',
       component: RelatoriosView
+    },
+    {
+      path: '/novo-usuario',
+      name: 'novo usuario',
+      component: NovosUsuarios
     }
   ]
 })

@@ -26,8 +26,9 @@
       </form>
     </div>
   </div> -->
-
+  
   <div class="container-md d-flex flex-column align-items-center">
+    <div v-if="sucesso" class="alert alert-primary" role="alert">{{ message }}</div>
     <p class="h3 mt-4 mb-3">Novo Culto ou Reunião</p>
     <div class="accordion shadow" style="width: 800px" id="accordionExample">
       <div class="accordion-item">
@@ -167,6 +168,7 @@
 
 <script>
 import axios from 'axios'
+import resetData from '../../js/resetData'
 
 export default {
   data() {
@@ -179,7 +181,9 @@ export default {
       presencas: '',
       convertidos: '',
       criancas: '',
-      financas: ''
+      financas: '',
+      sucesso: false,
+      message: ''
     }
   },
   methods: {
@@ -209,10 +213,16 @@ export default {
           criancas: this.criancas,
           financas: this.financas
         })
-        console.log(response.data)
+        resetData(this)
+        this.renderizarResultado('Culto criado')
       } catch (error) {
         console.log(error.response.data)
       }
+    },
+    renderizarResultado(message) {
+      this.message = message
+      this.sucesso = true
+      setTimeout(() => {this.sucesso = false}, 3500)
     }
   }
 }

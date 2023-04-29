@@ -1,6 +1,6 @@
 <template lang="">
   <div>
-    <div v-if="sucesso" class="alert alert-primary" role="alert">Tarefa adicionada com sucesso</div>
+    <div v-if="sucesso" class="alert alert-primary" role="alert">{{ message }}</div>
 
     <div class="accordion shadow" id="accordionExample">
       <div class="accordion-item">
@@ -39,6 +39,7 @@
 </template>
 <script>
 import axios from 'axios'
+import resetData from '../../js/resetData'
 
 export default {
   components: {},
@@ -46,7 +47,8 @@ export default {
     return {
       titulo: '',
       fim: '',
-      sucesso: false
+      sucesso: false,
+      message: ''
     }
   },
   methods: {
@@ -58,18 +60,16 @@ export default {
           titulo: this.titulo,
           fim: this.fim
         })
-        
-        this.sucesso = true
-        this.clearForm()
-        setTimeout(() => {this.sucesso = false}, 3500)
-
+        resetData(this)
+        this.renderizarResultado('Tarefa adicionada')
       } catch (error) {
         console.log(error.response.data)
       }
     },
-    clearForm() {
-      const inputs = document.querySelectorAll('.form-control')
-      inputs.forEach((input) => (input.value = ''))
+    renderizarResultado(message) {
+      this.message = message
+      this.sucesso = true
+      setTimeout(() => {this.sucesso = false}, 3500)
     }
   }
 }

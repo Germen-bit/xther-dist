@@ -41,13 +41,13 @@
               </a>
 
               <ul class="dropdown-menu">
-                <router-link style="text-decoration: none" to="/novos-integrantes">
+                <router-link style="text-decoration: none" to="/novo-integrante">
                   <li><a class="dropdown-item">Integrante Administrativo</a></li>
                 </router-link>
                 <router-link style="text-decoration: none" to="/cultos-reunioes">
                   <li><a class="dropdown-item">Culto ou Reunião</a></li>
                 </router-link>
-                <router-link style="text-decoration: none" to="">
+                <router-link style="text-decoration: none" to="/novo-usuario">
                   <li><a class="dropdown-item">Usuario</a></li>
                 </router-link>
               </ul>

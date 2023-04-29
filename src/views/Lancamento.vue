@@ -1,5 +1,7 @@
 <template>
   <div class="container-md d-flex flex-column align-items-center">
+    <div v-if="sucesso" class="alert alert-primary" role="alert">{{ message }}</div>
+
     <p class="h3 mt-4 mb-3">Lançamento Da Atividade</p>
     <form action="">
       <div class="accordion shadow" style="width: 800px" id="accordionExample">
@@ -25,13 +27,20 @@
               <div class="row">
                 <div class="col-md-8">
                   <label for="inputEmail4" class="form-label">Nome do Culto ou Reunião</label>
-                    <select v-model="nomeCulto" id="inputState" class="form-select">
-                      <option v-for="culto in todosOsCultos" v-on:click="carregarDados(culto)" :key="culto._id" value="{{ culto._id }}">{{ culto.nomeCulto }} - {{ converterData(culto.data) }}</option>
-                    </select>
+                  <select v-model="nomeCulto" id="inputState" class="form-select">
+                    <option
+                      v-for="culto in todosOsCultos"
+                      v-on:click="carregarDados(culto)"
+                      :key="culto._id"
+                      v-bind:value="culto._id"
+                    >
+                      {{ culto.nomeCulto }} - {{ converterData(culto.data) }}
+                    </option>
+                  </select>
                 </div>
                 <div class="col-md-4">
                   <label for="inputPassword4" class="form-label">Pregador da Homilia</label>
-                  <input v-model="pregador" type="text" class="form-control" id="inputPassword4" />
+                  <input v-model="pregador" type="text" disabled class="form-control" id="inputPassword4" />
                 </div>
               </div>
               <div class="col-12">
@@ -47,13 +56,20 @@
               <div class="row">
                 <div class="col-md-4">
                   <label for="inputPassword4" class="form-label">Semana Nº</label>
-                  <input v-model="semana" type="number" class="form-control" id="inputPassword4" />
+                  <input
+                    v-model="semana"
+                    type="number"
+                    class="form-control"
+                    id="inputPassword4"
+                    disabled
+                  />
                 </div>
                 <div class="col-md-4">
                   <label for="inputAddress" class="form-label">Data do culto</label>
                   <input
                     v-model="data"
                     type="date"
+                    v-on:change="calcularSemana"
                     class="form-control"
                     id="inputAddress"
                     placeholder=""
@@ -136,6 +152,7 @@
                     <span class="input-group-text" id="basic-addon1">Alvo</span>
                     <input
                       v-model="adultoAlvo"
+                      disabled
                       type="text"
                       class="form-control"
                       placeholder="alvo"
@@ -162,6 +179,7 @@
                     <span class="input-group-text" id="basic-addon1">Alvo</span>
                     <input
                       v-model="criancasAlvo"
+                      disabled
                       type="text"
                       class="form-control"
                       placeholder="alvo"
@@ -187,6 +205,7 @@
                     <span class="input-group-text" id="basic-addon1">Alvo</span>
                     <input
                       v-model="convertidosAlvo"
+                      disabled
                       type="text"
                       class="form-control"
                       placeholder="alvo"
@@ -235,6 +254,7 @@
                   <div class="input-group mb-3">
                     <span class="input-group-text" id="basic-addon1">Alvo</span>
                     <input
+                      disabled
                       v-model="financasAlvo"
                       type="text"
                       class="form-control"
@@ -250,18 +270,7 @@
                     <span class="input-group-text" id="basic-addon1">Cash</span>
                     <input
                       v-model="financasDizimosCash"
-                      type="text"
-                      class="form-control"
-                      placeholder="0"
-                      aria-label="Username"
-                      aria-describedby="basic-addon1"
-                    />
-                  </div>
-
-                  <div class="input-group mb-3">
-                    <span class="input-group-text mr-1" id="basic-addon1">Transferência</span>
-                    <input
-                      v-model="financasDizimosTransferencia"
+                      v-on:input="calcularTotal()"
                       type="text"
                       class="form-control"
                       placeholder="0"
@@ -276,6 +285,7 @@
                     <span class="input-group-text" id="basic-addon1">Ofertas</span>
                     <input
                       v-model="financasOfertas"
+                      v-on:input="calcularTotal()"
                       type="text"
                       class="form-control"
                       placeholder="0"
@@ -288,7 +298,25 @@
                   <label for="inputCity" class="form-label p-1">Total Real</label>
                   <div class="input-group mb-3">
                     <input
+                      disabled
                       v-model="financasTotal"
+                      type="text"
+                      class="form-control"
+                      placeholder="0"
+                      aria-label="Username"
+                      aria-describedby="basic-addon1"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-3"></div>
+                <div class="col-md-6" style="margin: 0">
+                  <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1">Transferência</span>
+                    <input
+                      v-model="financasDizimosTransferencia"
+                      v-on:input="calcularTotal()"
                       type="text"
                       class="form-control"
                       placeholder="0"
@@ -312,11 +340,14 @@
 </template>
 <script>
 import axios from 'axios'
+import moment from 'moment'
 import converterData from '../js/converterData'
+import resetData from '../js/resetData'
 
 export default {
   data() {
     return {
+      idCulto: '',
       todosOsCultos: '',
       nomeCulto: '',
       pregador: '',
@@ -336,7 +367,9 @@ export default {
       financasTotal: '',
       pregadorAmor: '',
       pregadorFinancas: '',
-      observacao: ''
+      observacao: '',
+      sucesso: false,
+      message: ''
     }
   },
   methods: {
@@ -346,6 +379,7 @@ export default {
 
       try {
         const response = await axios.post('/lancamentos/', {
+          culto: this.idCulto,
           nomeCulto: this.nomeCulto,
           pregador: this.pregador,
           semana: this.semana,
@@ -366,8 +400,8 @@ export default {
           pregadorFinancas: this.pregadorFinancas,
           observacao: this.observacao
         })
-
-        console.log(response.data)
+        resetData(this)
+        this.renderizarResultado('Actividade lançada com sucesso')
       } catch (error) {
         console.log(error.response.data)
       }
@@ -381,7 +415,6 @@ export default {
       }
     },
     carregarDados(dados) {
-      console.log(dados.alvos)
       this.pregador = dados.nomeLider
       this.pregadorAmor = dados.coLider1
       this.pregadorFinancas = dados.coLider2
@@ -389,6 +422,23 @@ export default {
       this.convertidosAlvo = dados.alvos.convertidos
       this.criancasAlvo = dados.alvos.criancas
       this.financasAlvo = dados.alvos.financas
+      this.idCulto = dados._id
+      console.log("Lider = " + dados.nomeLider, "ID Culto = "+dados._id)
+    },
+    calcularSemana() {
+      const dataDoCulto = moment(this.data)
+      this.semana = dataDoCulto.week()
+    },
+    calcularTotal() {
+      this.financasTotal =
+        Number(this.financasDizimosCash) +
+        Number(this.financasDizimosTransferencia) +
+        Number(this.financasOfertas)
+    },
+    renderizarResultado(message) {
+      this.message = message
+      this.sucesso = true
+      setTimeout(() => {this.sucesso = false}, 3500)
     }
   },
   beforeMount() {

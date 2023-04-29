@@ -1,5 +1,7 @@
 <template lang="">
   <div class="container-md d-flex flex-column align-items-center">
+    <div v-if="sucesso" class="alert alert-primary" role="alert">{{ message }}</div>
+
     <p class="h3 mt-4 mb-3">Novos Integrantes Administrativos</p>
     <div class="accordion shadow" style="width: 800px;" id="accordionExample">
       <div class="accordion-item">
@@ -38,11 +40,11 @@
           <div class="row">
             <div class="col-md-6">
               <label for="telefone" class="form-label">Telefone 1</label>
-              <input v-model="tel1" type="number" class="form-control" id="number-tel1" />
+              <input v-model="tel1" type="tel" class="form-control" id="number-tel1" placeholder="000 000 000"/>
             </div>
             <div class="col-md-6">
               <label for="telefone" class="form-label">Telefone 2</label>
-              <input v-model="tel2" type="number" class="form-control" id="number-tel1" />
+              <input v-model="tel2" type="tel" class="form-control" id="number-tel1" placeholder="000 000 000"/>
             </div>
           </div>
         </div>
@@ -145,6 +147,7 @@
 
 <script>
 import axios from 'axios'
+import resetData from '../../js/resetData'
 export default {
   data() {
     return {
@@ -154,7 +157,9 @@ export default {
       email: '',
       morada: '',
       provincia: '',
-      municipio: ''
+      municipio: '',
+      sucesso: false,
+      message: ''
     }
   },
   methods: {
@@ -171,10 +176,16 @@ export default {
           provincia: this.provincia,
           municipio: this.municipio
         })
-        console.log(response.data)
+        resetData(this)
+        this.renderizarResultado('Novo integrante adicionado')
       } catch (error) {
         console.log(error.response.data)
       }
+    },
+    renderizarResultado(message) {
+      this.message = message
+      this.sucesso = true
+      setTimeout(() => {this.sucesso = false}, 3500)
     }
   }
 }
