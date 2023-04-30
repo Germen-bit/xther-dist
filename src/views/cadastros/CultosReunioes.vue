@@ -1,35 +1,7 @@
 <template lang="">
-  <!-- <div>
-      <table class="table table-striped">
-        <thead>
-            <tr>
-            <th scope="col">Nome</th>
-            <th scope="col">Contacto</th>
-            <th scope="col">Igreja Proveniente</th>
-            </tr>
-        </thead>
-        <tbody class="guest-table">
-            <tr>
-            <th scope="row"><input type="text" class="form-control"></th>
-            <td ><input type="number" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td><button @click="removeGuest($event)" type="button" class="d-grid gap-2 col-xs-1 mx-auto btn btn-outline-danger">X</button></td>
-            </tr>
-        </tbody>
-    </table>
-    <div class="col-12">
-        <button type="button" id="guest-table" @click="moreGuests" class="d-grid gap-2 col-2 mx-auto btn btn-outline-primary">Mais</button>
-    </div>
-
-          
-        </div>
-      </form>
-    </div>
-  </div> -->
-  
-  <div class="container-md d-flex flex-column align-items-center">
+  <div class="container-md d-flex flex-column align-items-center mt-3">
     <div v-if="sucesso" class="alert alert-primary" role="alert">{{ message }}</div>
-    <p class="h3 mt-4 mb-3">Novo Culto ou Reunião</p>
+    <p class="h3 mt-1 mb-3">Novo Culto ou Reunião</p>
     <div class="accordion shadow" style="width: 800px" id="accordionExample">
       <div class="accordion-item">
         <h2 class="accordion-header">
@@ -53,7 +25,15 @@
             <div class="row">
               <div class="col-md-8">
                 <label for="inputAddress" class="form-label">Lider da reunião</label>
-                <input v-model="nomeLider" type="text" class="form-control" id="nome-lider" />
+                <select v-model="nomeLider" id="inputState" class="form-select">
+                    <option
+                      v-for="pastor in todosPastores"
+                      :key="pastor._id"
+                      v-bind:value="pastor.name"
+                    >
+                    {{ pastor.name }}
+                    </option>
+                  </select>
               </div>
               <div class="col-md-4">
                 <label for="inputAddress" class="form-label">Data</label>
@@ -62,13 +42,25 @@
             </div>
 
             <div class="row">
-              <div class="col-md-6">
-                <label for="telefone" class="form-label">Co-Lider 1</label>
-                <input v-model="coLider1" type="text" class="form-control" id="co-lider1" />
+              <label for="" class="form-label">Integrantes do culto</label>
+              <div v-for="(input, index) in inputs" :key="index">
+                <div class="d-flex align-items-center mt-2">
+                  <select v-model="integrantes" id="inputState" class="form-select">
+                    <option
+                      v-for="pastor in todosPastores"
+                      :key="pastor._id"
+                      v-bind:value="pastor.name"
+                      v-on:click="addPastor(index ,pastor.name)"
+                    >
+                    {{ pastor.name }}
+                    </option>
+                  </select>
+                    <button class="btn btn-danger ml-2" @click="removeInput(index)">-</button>
+                </div>
               </div>
-              <div class="col-md-6">
-                <label for="telefone" class="form-label">Co-Lider 2</label>
-                <input v-model="coLider2" type="text" class="form-control" id="co-lider2" />
+
+              <div class="mt-3 d-flex align-items-center justify-content-center">
+                <button class="btn btn-outline-secondary" @click="addInput" style="width: 100px;">+</button>
               </div>
             </div>
 
@@ -106,9 +98,9 @@
           <div class="accordion-body">
             <div class="row">
               <div class="col-md-6">
-                <label for="inputAddress" class="form-label">Presenças</label>
+                <label for="inputAddress" class="form-label">Adultos</label>
                 <input
-                  v-model="presencas"
+                  v-model="adultos"
                   type="number"
                   min="1"
                   class="form-control"
@@ -175,29 +167,19 @@ export default {
     return {
       nomeLider: '',
       data: '',
-      coLider1: '',
-      coLider2: '',
       nomeCulto: '',
-      presencas: '',
+      adultos: '',
       convertidos: '',
       criancas: '',
       financas: '',
       sucesso: false,
-      message: ''
+      message: '',
+      inputs: [{ value: '' }],
+      integrantes: [{ value: '' }],
+      todosPastores: '',
     }
   },
   methods: {
-    moreGuests() {
-      const table = `<tr>
-            <th scope="row"><input type="text" class="form-control"></th>
-            <td ><input type="number" class="form-control"></td>
-            <td><input type="text" class="form-control"></td>
-            <td><button type="button" class="d-grid gap-2 col-xs-1 mx-auto btn btn-outline-danger">X</button></td>
-            </tr>`
-
-      const guestTable = document.querySelector('.guest-table')
-      guestTable.insertAdjacentHTML('beforeend', table)
-    },
     async guardarCulto(event) {
       event.preventDefault()
 
@@ -205,10 +187,9 @@ export default {
         const response = await axios.post('/cultos/', {
           nomeLider: this.nomeLider,
           data: this.data,
-          coLider1: this.coLider1,
-          coLider2: this.coLider2,
+          integrantes: this.integrantes,
           nomeCulto: this.nomeCulto,
-          presencas: this.presencas,
+          adultos: this.adultos,
           convertidos: this.convertidos,
           criancas: this.criancas,
           financas: this.financas
@@ -222,8 +203,34 @@ export default {
     renderizarResultado(message) {
       this.message = message
       this.sucesso = true
-      setTimeout(() => {this.sucesso = false}, 3500)
-    }
+      setTimeout(() => {
+        this.sucesso = false
+      }, 3500)
+    },
+    addInput() {
+      this.inputs.push({ value: '' })
+    },
+    removeInput(index) {
+      this.inputs.splice(index, 1)
+      this.removePastor(index)
+    },
+    async carregarPastores() {
+      try {
+        const response = await axios.get('/pastores/')
+        this.todosPastores = response.data
+      } catch (error) {
+        
+      }
+    },
+    addPastor(index,nome) {
+      this.integrantes[index] = nome
+    },
+    removePastor(index) {
+      this.integrantes.splice(index, 1)
+    },
+  },
+  beforeMount() {
+    this.carregarPastores()
   }
 }
 </script>

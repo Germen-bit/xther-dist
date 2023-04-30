@@ -1,8 +1,8 @@
 <template>
-  <div class="container-md d-flex flex-column align-items-center">
+  <div class="container-md mt-4 d-flex flex-column align-items-center">
     <div v-if="sucesso" class="alert alert-primary" role="alert">{{ message }}</div>
 
-    <p class="h3 mt-4 mb-3">Lançamento Da Atividade</p>
+    <p class="h3 mb-3">Lançamento Da Atividade</p>
     <form action="">
       <div class="accordion shadow" style="width: 800px" id="accordionExample">
         <div class="accordion-item">
@@ -40,7 +40,13 @@
                 </div>
                 <div class="col-md-4">
                   <label for="inputPassword4" class="form-label">Pregador da Homilia</label>
-                  <input v-model="pregador" type="text" disabled class="form-control" id="inputPassword4" />
+                  <input
+                    v-model="pregador"
+                    type="text"
+                    disabled
+                    class="form-control"
+                    id="inputPassword4"
+                  />
                 </div>
               </div>
               <div class="col-12">
@@ -109,18 +115,21 @@
               <div class="row">
                 <div class="col-md-6">
                   <label for="inputEmail4" class="form-label">Pregador da palavra de amor</label>
-                  <input v-model="pregadorAmor" type="text" class="form-control" id="inputEmail4" />
+                  <select v-model="pregadorAmor" id="inputState" class="form-select">
+                    <option v-for="pastor in todosPastores" :key="pastor._id" v-bind:value="pastor">
+                      {{ pastor }}
+                    </option>
+                  </select>
                 </div>
                 <div class="col-md-6">
                   <label for="inputEmail4" class="form-label"
                     >Pregador da palavra de finanças</label
                   >
-                  <input
-                    v-model="pregadorFinancas"
-                    type="text"
-                    class="form-control"
-                    id="inputEmail4"
-                  />
+                  <select v-model="pregadorFinancas" id="inputState" class="form-select">
+                    <option v-for="pastor in todosPastores" :key="pastor._id" v-bind:value="pastor">
+                      {{ pastor }}
+                    </option>
+                  </select>
                 </div>
               </div>
             </div>
@@ -256,6 +265,7 @@
                     <input
                       disabled
                       v-model="financasAlvo"
+                      v-on:change="converterMoeda(financasAlvo)"
                       type="text"
                       class="form-control"
                       placeholder="0"
@@ -369,7 +379,8 @@ export default {
       pregadorFinancas: '',
       observacao: '',
       sucesso: false,
-      message: ''
+      message: '',
+      todosPastores: ''
     }
   },
   methods: {
@@ -416,14 +427,12 @@ export default {
     },
     carregarDados(dados) {
       this.pregador = dados.nomeLider
-      this.pregadorAmor = dados.coLider1
-      this.pregadorFinancas = dados.coLider2
       this.adultoAlvo = dados.alvos.adultos
       this.convertidosAlvo = dados.alvos.convertidos
       this.criancasAlvo = dados.alvos.criancas
       this.financasAlvo = dados.alvos.financas
+      this.todosPastores = dados.integrantes
       this.idCulto = dados._id
-      console.log("Lider = " + dados.nomeLider, "ID Culto = "+dados._id)
     },
     calcularSemana() {
       const dataDoCulto = moment(this.data)
@@ -438,7 +447,12 @@ export default {
     renderizarResultado(message) {
       this.message = message
       this.sucesso = true
-      setTimeout(() => {this.sucesso = false}, 3500)
+      setTimeout(() => {
+        this.sucesso = false
+      }, 3500)
+    },
+    formatarMoeda(valor) {
+      return valor.toLocaleString('pt-AO', { style: 'currency', currency: 'AOA' })
     }
   },
   beforeMount() {

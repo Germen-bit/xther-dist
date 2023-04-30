@@ -1,15 +1,20 @@
 @import './base.css';
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Poppins:wght@200;400;600&display=swap');
 
+.h1.h2.h3.h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 300;
+}
 
 #app {
   min-width: 1000px;
   width: 100vw;
+  min-height: 100vh;
   margin: 0;
-  height: 100vh;
-  max-height: 100vh;
   background-color: #FFF;
-  /* overflow-y: hidden; */
-  font-family: 'Poppins', sans-serif;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
 }
+
+
 

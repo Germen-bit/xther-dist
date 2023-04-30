@@ -9,8 +9,6 @@ const store = useStore()
 const usuario = computed(() => store.getters.getUsuario)
 onBeforeMount(checkUsuario)
 
-const nome = "Germen"
-
 </script>
 
 <template>

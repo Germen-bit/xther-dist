@@ -47,7 +47,7 @@ export default {
       ]
 
       new Chart(document.querySelector('.acquisitions1'), {
-        type: 'bar',
+        type: 'line',
         data: {
           labels: dados.map((row) => row.year),
           datasets: [
@@ -59,7 +59,7 @@ export default {
         }
       })
       new Chart(document.querySelector('.acquisitions2'), {
-        type: 'bar',
+        type: 'line',
         data: {
           labels: dados.map((row) => row.year),
           datasets: [
@@ -73,7 +73,7 @@ export default {
     }
   },
   mounted() {
-    this.createChart()
+    // this.createChart()
   }
 }
 </script>

@@ -55,14 +55,37 @@
           </li>
           <router-link style="text-decoration: none" to="/lancamento">
             <li class="nav-item">
-              <a class="nav-link text-dark">Lançamentos</a>
+              <a class="nav-link text-dark">Lançamento</a>
             </li>
           </router-link>
-          <router-link style="text-decoration: none" to="/relatorios">
-            <li class="nav-item">
-              <a class="nav-link text-dark">Relatórios</a>
-            </li>
-          </router-link>
+          <li class="nav-item">
+            <div>
+              <a
+                class="btn btn-white dropdown-toggle"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Relatórios
+              </a>
+
+              <ul class="dropdown-menu">
+                <router-link style="text-decoration: none" to="/financas">
+                  <li><a class="dropdown-item">Finanças</a></li>
+                </router-link>
+                <router-link style="text-decoration: none" to="">
+                  <li><a class="dropdown-item">Presenças</a></li>
+                </router-link>
+                <router-link style="text-decoration: none" to="">
+                  <li><a class="dropdown-item">Salvações</a></li>
+                </router-link>
+                <router-link style="text-decoration: none" to="">
+                  <li><a class="dropdown-item">Crianças</a></li>
+                </router-link>
+              </ul>
+            </div>
+          </li>
         </ul>
       </div>
       <div class="dropdown" style="margin-right: 30px">
@@ -73,13 +96,7 @@
           aria-expanded="false"
         >
           <strong class="text-dark" style="margin-right: 10px">{{ getUsuario.nome }}</strong>
-          <img
-            src=""
-            alt=""
-            width="32"
-            height="32"
-            class="rounded-circle me-2"
-          />
+          <img src="" alt="" width="32" height="32" class="rounded-circle me-2" />
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
             <li><a class="dropdown-item" href="#">Definição</a></li>
             <li><hr class="dropdown-divider" /></li>
