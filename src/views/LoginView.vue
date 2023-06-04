@@ -99,6 +99,6 @@ export default {
 
 <style scoped>
 .main-content {
-  width: 450px
+  width: 400px;
 }
 </style>

@@ -10,6 +10,9 @@ import NovosUsuarios from '../views/cadastros/NovosUsuarios.vue'
 import LancamentoView from '../views/Lancamento.vue'
 // relatorios e graficos
 import RelatorioFinancas from '../views/relatorios e graficos/relatorioFinancas.vue'
+import RelatorioSalvacao from '../views/relatorios e graficos/relatorioSalvacao.vue'
+import RelatorioPresencas from '../views/relatorios e graficos/relatorioPresencas.vue'
+import RelatorioCriancas from '../views/relatorios e graficos/relatorioCriancas.vue'
 
 
 const router = createRouter({
@@ -49,7 +52,22 @@ const router = createRouter({
       path: '/financas',
       name: 'relatorios de financas',
       component: RelatorioFinancas
-    }
+    },
+    {
+      path: '/criancas',
+      name: 'relatorios de criancas',
+      component: RelatorioCriancas
+    },
+    {
+      path: '/salvacoes',
+      name: 'relatorios de salvações',
+      component: RelatorioSalvacao
+    },
+    {
+      path: '/presencas',
+      name: 'relatorios de presenças',
+      component: RelatorioPresencas
+    },
   ]
 })
 

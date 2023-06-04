@@ -74,13 +74,13 @@
                 <router-link style="text-decoration: none" to="/financas">
                   <li><a class="dropdown-item">Finanças</a></li>
                 </router-link>
-                <router-link style="text-decoration: none" to="">
+                <router-link style="text-decoration: none" to="/presencas">
                   <li><a class="dropdown-item">Presenças</a></li>
                 </router-link>
-                <router-link style="text-decoration: none" to="">
+                <router-link style="text-decoration: none" to="/salvacoes">
                   <li><a class="dropdown-item">Salvações</a></li>
                 </router-link>
-                <router-link style="text-decoration: none" to="">
+                <router-link style="text-decoration: none" to="/criancas">
                   <li><a class="dropdown-item">Crianças</a></li>
                 </router-link>
               </ul>
@@ -96,10 +96,9 @@
           aria-expanded="false"
         >
           <strong class="text-dark" style="margin-right: 10px">{{ getUsuario.nome }}</strong>
-          <img src="" alt="" width="32" height="32" class="rounded-circle me-2" />
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-            <li><a class="dropdown-item" href="#">Definição</a></li>
-            <li><hr class="dropdown-divider" /></li>
+            <!-- <li><a class="dropdown-item" href="#">Definição</a></li> -->
+            <!-- <li><hr class="dropdown-divider" /></li> -->
             <li><a class="dropdown-item" href="#" @click="logout">Sair</a></li>
           </ul>
         </a>
@@ -118,7 +117,7 @@ export default {
   methods: {
     logout() {
       localStorage.removeItem('token')
-      this.$router.push({ path: '/login' })
+      this.$router.push({ path: '/' })
       location.reload()
     }
   }

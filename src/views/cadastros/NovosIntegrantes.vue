@@ -1,8 +1,7 @@
 <template lang="">
-  <div class="container-md d-flex flex-column align-items-center">
+  <div class="container-md d-flex flex-column align-items-center mt-4">
     <div v-if="sucesso" class="alert alert-primary" role="alert">{{ message }}</div>
-
-    <p class="h3 mt-4 mb-3">Novos Integrantes Administrativos</p>
+    <p class="h3 mb-3">Novos Integrantes Administrativos</p>
     <div class="accordion shadow" style="width: 800px;" id="accordionExample">
       <div class="accordion-item">
         <h2 class="accordion-header">
